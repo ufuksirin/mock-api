@@ -38,6 +38,17 @@ app.post("/mock/agent/check-transaction", (req, res) => {
   });
 });
 
+app.post("/mock/agent/create-ticket", (req, res) => {
+  const { user_id, issue_type, description, priority } = req.body;
+
+  res.json({
+    ticket_id: "TICKET-" + Math.floor(Math.random() * 100000),
+    status: "created",
+    assigned_team: "support",
+    priority: priority || "medium"
+  });
+});
+
 app.listen(3000, () => {
   console.log("Mock API running on port 3000");
 });
