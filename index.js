@@ -38,16 +38,33 @@ app.post("/mock/agent/check-transaction", (req, res) => {
   });
 });
 
-app.post("/mock/agent/create-ticket", (req, res) => {
-  const { user_id, issue_type, description, priority } = req.body;
+app.post("/mock/agent/create-ticket", express.json(), (req, res) => {
+  const {
+    user_id,
+    issue_type,
+    description,
+    priority = "medium",
+    language = "en"
+  } = req.body;
+
+  console.log("Create ticket:", {
+    user_id,
+    issue_type,
+    priority
+  });
 
   res.json({
-    ticket_id: "TICKET-" + Math.floor(Math.random() * 100000),
+    ticket_id: "TICKET-" + Math.floor(10000 + Math.random() * 90000),
     status: "created",
     assigned_team: "support",
-    priority: priority || "medium"
+    priority,
+    message:
+      language === "tr"
+        ? "Destek talebiniz oluşturuldu. En kısa sürede sizinle iletişime geçeceğiz."
+        : "Your support ticket has been created. Our support team will contact you shortly."
   });
 });
+
 
 app.listen(3000, () => {
   console.log("Mock API running on port 3000");
