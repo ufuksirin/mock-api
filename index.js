@@ -73,7 +73,8 @@ function normalizePhone(phone) {
 
   return phone
     .replace(/\s+/g, "")
-    .replace(/[^0-9+]/g, "");
+    .replace(/[^0-9+]/g, "")
+    .replace("+90", "0");
 }
 
 
