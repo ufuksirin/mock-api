@@ -70,14 +70,14 @@ app.post("/mock/agent/get-user-profile-by-phone", (req, res) => {
 
   // MOCK USER DATABASE
   const users = {
-    "+905551112233": {
+    "+905324439852": {
       first_name: "Canan",
       last_name: "Şirin",
       gender: "female",
       email: "canan.sisirn@gmail.com",
       preferred_language: "tr"
     },
-    "+905551119999": {
+    "+905333523727": {
       first_name: "Ufuk",
       last_name: "Şirin",
       gender: "male",
