@@ -65,19 +65,31 @@ app.post("/mock/agent/create-ticket", express.json(), (req, res) => {
   });
 });
 
-app.post("/mock/agent/get-user-profile-by-phone", (req, res) => {
-  const { phone_number } = req.body;
 
-  // MOCK USER DATABASE
+function normalizePhone(phone) {
+  return phone
+    .replace(/\s+/g, "")
+    .replace("+90", "0")
+    .replace(/^90/, "0")
+    .replace(/\D/g, "");
+}
+
+app.post("/mock/agent/get-user-profile-by-phone", (req, res) => {
+  const rawPhone = req.body.phone;
+  const phone = normalizePhone(rawPhone);
+
+  console.log("RAW:", rawPhone);
+  console.log("NORMALIZED:", phone);
+
   const users = {
-    "+905324439852": {
+    "05333523727": {
       first_name: "Canan",
       last_name: "Şirin",
       gender: "female",
-      email: "canan.sisirn@gmail.com",
+      email: "canan.sirin@gmail.com",
       preferred_language: "tr"
     },
-    "+905333523727": {
+    "05324439852": {
       first_name: "Ufuk",
       last_name: "Şirin",
       gender: "male",
@@ -86,7 +98,7 @@ app.post("/mock/agent/get-user-profile-by-phone", (req, res) => {
     }
   };
 
-  const user = users[phone_number];
+  const user = users[phone];
 
   if (!user) {
     return res.json({
@@ -95,7 +107,7 @@ app.post("/mock/agent/get-user-profile-by-phone", (req, res) => {
     });
   }
 
-  res.json({
+  return res.json({
     user_found: true,
     first_name: user.first_name,
     last_name: user.last_name,
