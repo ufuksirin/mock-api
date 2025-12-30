@@ -67,29 +67,45 @@ app.post("/mock/agent/create-ticket", express.json(), (req, res) => {
 
 
 function normalizePhone(phone) {
+  if (!phone || typeof phone !== "string") {
+    return null;
+  }
+
   return phone
     .replace(/\s+/g, "")
-    .replace("+90", "0")
-    .replace(/^90/, "0")
-    .replace(/\D/g, "");
+    .replace(/[^0-9+]/g, "");
 }
 
+
 app.post("/mock/agent/get-user-profile-by-phone", (req, res) => {
-  const rawPhone = req.body.phone;
+
+  const rawPhone =
+    req.body.phone ||
+    req.body.phone_number ||
+    req.body.from ||
+    req.body.caller_phone ||
+    null;
+
   const phone = normalizePhone(rawPhone);
 
-  console.log("RAW:", rawPhone);
-  console.log("NORMALIZED:", phone);
+  // phone yoksa ASLA 500 dönme
+  if (!phone) {
+    return res.json({
+      user_found: false,
+      gender: "unknown"
+    });
+  }
 
+  // MOCK USER DATABASE
   const users = {
-    "05324439852": {
+    "+905324439852": {
       first_name: "Canan",
       last_name: "Şirin",
       gender: "female",
       email: "canan.sirin@gmail.com",
       preferred_language: "tr"
     },
-    "05333523727": {
+    "+905333523727": {
       first_name: "Ufuk",
       last_name: "Şirin",
       gender: "male",
