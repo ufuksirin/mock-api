@@ -65,6 +65,46 @@ app.post("/mock/agent/create-ticket", express.json(), (req, res) => {
   });
 });
 
+app.post("/mock/agent/get-user-profile-by-phone", (req, res) => {
+  const { phone_number } = req.body;
+
+  // MOCK USER DATABASE
+  const users = {
+    "+905551112233": {
+      first_name: "Canan",
+      last_name: "Şirin",
+      gender: "female",
+      email: "canan.sisirn@gmail.com",
+      preferred_language: "tr"
+    },
+    "+905551119999": {
+      first_name: "Ufuk",
+      last_name: "Şirin",
+      gender: "male",
+      email: "usirin@gmail.com",
+      preferred_language: "tr"
+    }
+  };
+
+  const user = users[phone_number];
+
+  if (!user) {
+    return res.json({
+      user_found: false,
+      gender: "unknown"
+    });
+  }
+
+  res.json({
+    user_found: true,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    gender: user.gender,
+    email: user.email,
+    preferred_language: user.preferred_language
+  });
+});
+
 
 app.listen(3000, () => {
   console.log("Mock API running on port 3000");
