@@ -82,14 +82,14 @@ app.post("/mock/agent/get-user-profile-by-phone", (req, res) => {
   console.log("NORMALIZED:", phone);
 
   const users = {
-    "05333523727": {
+    "05324439852": {
       first_name: "Canan",
       last_name: "Şirin",
       gender: "female",
       email: "canan.sirin@gmail.com",
       preferred_language: "tr"
     },
-    "05324439852": {
+    "05333523727": {
       first_name: "Ufuk",
       last_name: "Şirin",
       gender: "male",
